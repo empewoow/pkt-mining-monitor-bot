@@ -15,8 +15,10 @@ print ("PKT Miner Monitor bot started.")
 def start_command(update, context):
     #update.message.reply_text("Type something to get started!")
 
-    context.job_queue.run_repeating(callback_message, interval=1800, first=1, context=update.message.chat_id)
+    # Send a message every hour:
+    #context.job_queue.run_repeating(callback_message, interval=3600, first=1, context=update.message.chat_id)
 
+    # Send the daily message at 9:30 Europe (Amsterdam) time:
     context.job_queue.run_daily(daily_message,
                                 datetime.time(hour=9, minute=30, tzinfo=pytz.timezone('Europe/Amsterdam')),
                                 days=(0, 1, 2, 3, 4, 5, 6), context=update.message.chat_id)
