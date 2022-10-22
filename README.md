@@ -1,33 +1,24 @@
-# pkt-miner-monitor-bot
+# PKT Miner Monitor bot
 Monitor your PKT miner with this Telegram bot.
-
-### What it does:
 
 The bot can send the user a message each day at a fixed time with some mining statistics. It shows the balance of the PKT address, mining income yesterday, 7 days and 30 days ago. It can show the amount of unconsolidated transactions and tells you if you need to fold your coins again.
 
-### Screenshot
+## Screenshot
 
 ![Screenshot of the PKT Miner Monitor bot](/docs/screenshot1.png?raw=true)
 
-### How to run it:
+## How to run it?
 
-For now, you cannot use the bot I created yet.
+For now, you cannot use the bot I created yet. But you can run it yourself:
 
-To make use of the software, create your own bot by talking to Telegram's [BotFather](https://t.me/botfather).
+* Create your own bot by talking to Telegram's [BotFather](https://t.me/botfather).
+* Install Python if you don't have it yet.
+* Install the required [Python Telegram bot](https://python-telegram-bot.org/) library by running `pip install python-telegram-bot`. (You may need to use `pip3`.)
+* Configure some settings in the `constants.py` file.
+* Run the bot with `python main.py`.
+* Talk to the bot and say the `/start` command.
 
-Install Python if you don't have it yet.
-
-Install the required [Python Telegram bot](https://python-telegram-bot.org/) library:
-
-`pip install python-telegram-bot`
-
-Configure some settings in the `constants.py` file.
-
-Run the bot with `python main.py`.
-
-Talk to the bot and say the `/start` command.
-
-### More details:
+## How it get's the data
 
 The bot uses the [PKT explorer backend API v1](https://github.com/pkt-cash/pkt-explorer-backend/blob/master/docs/apiv1.md). If you run this software yourself, you can connect it to your own block explorer.
 
@@ -51,10 +42,14 @@ Output:
 }
 ```
 
-### To-do
+## To-do
 
 - Percentage statistics, compare daily income to previous values
 - Multiple users
 - Multiple PKT addresses
-- Graphs?
+- Nice graphs?
 - Many other things...
+
+## License
+
+MIT
