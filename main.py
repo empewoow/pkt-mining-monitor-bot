@@ -3,6 +3,7 @@ from telegram.ext import *
 from telegram import ParseMode
 import responses
 import miner_info
+import data
 import datetime
 import pytz
 
@@ -24,22 +25,42 @@ def start_command(update, context):
                                 days=(0, 1, 2, 3, 4, 5, 6), context=update.message.chat_id)
 
 def callback_message(context):
-    chat_id=context.job.context
+    chat_id = context.job.context
     #now = datetime.datetime.now()
     #time = now.strftime("%H:%M")
     
-    message = miner_info.get_miner_info(constants.PKT_ADDRESS)
+    first_address = data.get_first_address(chat_id)
+    message = miner_info.get_miner_info(first_address)
 
     context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
 
 def daily_message(context):
-    chat_id=context.job.context
+    chat_id = context.job.context
     #now = datetime.datetime.now()
     #time = now.strftime("%H:%M")
 
-    message = miner_info.get_miner_info(constants.PKT_ADDRESS)
+    first_address = data.get_first_address(chat_id)
+    message = miner_info.get_miner_info(first_address)
 
     context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
+
+def list_addresses_command(update, context):
+    chat_id = update.message.chat_id
+    message = update.message.text.lower()
+    result = data.list_addresses(chat_id, message)
+    update.message.reply_text(result)
+
+def add_address_command(update, context):
+    chat_id = update.message.chat_id
+    message = update.message.text.lower()
+    result = data.add_address(chat_id, message)
+    update.message.reply_text(result)
+
+def remove_address_command(update, context):
+    chat_id = update.message.chat_id
+    message = update.message.text.lower()
+    result = data.remove_address(chat_id, message)
+    update.message.reply_text(result)
 
 def check_command(update, context: CallbackContext) -> None:
     update.message.reply_text(f"Check: {context.bot.base_url}")
@@ -62,6 +83,9 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start_command))
+    dp.add_handler(CommandHandler("list_addresses", list_addresses_command))
+    dp.add_handler(CommandHandler("add_address", add_address_command))
+    dp.add_handler(CommandHandler("remove_address", remove_address_command))
     dp.add_handler(CommandHandler("check", check_command))
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(MessageHandler(Filters.text, handle_message))

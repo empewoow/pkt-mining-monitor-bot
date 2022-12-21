@@ -1,5 +1,4 @@
 import urllib.request, json
-#import constants
 
 # https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpage-into-python-script
 # https://stackoverflow.com/questions/455612/limiting-floats-to-two-decimal-points
@@ -39,5 +38,3 @@ def get_miner_info(pkt_address):
         result += "Mined 30 days ago: " + "%.2f" % received_30daysago + " PKT"
 
     return result
-
-#print(get_miner_info(constants.PKT_ADDRESS))
