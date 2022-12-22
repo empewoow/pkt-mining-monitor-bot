@@ -85,6 +85,17 @@ def get_first_address(chat_id):
 
     return rows[0][0]
 
+def get_all_addresses(chat_id):
+
+    connection = sqlite3.connect(database_name)
+    cursor = connection.cursor()
+    
+    rows = cursor.execute("SELECT address FROM addresses WHERE chat_id='" + str(chat_id) + "'").fetchall()
+
+    connection.close()
+
+    return rows
+
 #create_table()
 
 #add_address("89012380", "/add_address pktaddress3")

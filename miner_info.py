@@ -4,37 +4,41 @@ import urllib.request, json
 # https://stackoverflow.com/questions/455612/limiting-floats-to-two-decimal-points
 # https://stackoverflow.com/questions/4435169/how-do-i-append-one-string-to-another-in-python
 
-def get_miner_info(pkt_address):
+def get_miner_info(pkt_addresses):
+    
+    result = "<b>Miner statistics</b>\n"
+    
+    for pkt_address in pkt_addresses:
 
-    address = str(pkt_address).lower()
-    result = "<b>Miner statistics</b>\n\n"
-    result += "Address: " + pkt_address + "\n"
+        pkt_address = str(pkt_address[0]).lower()
+        
+        result += "\nAddress: " + pkt_address + "\n"
 
-    with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + address) as url:
-        data = json.load(url)
+        with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + pkt_address) as url:
+            data = json.load(url)
 
-        balance = int(data["balance"]) / (2**30)
-        mined24 = int(data["mined24"]) / (2**30)
-        unconsolidated_txns = int(data["balanceCount"])
+            balance = int(data["balance"]) / (2**30)
+            mined24 = int(data["mined24"]) / (2**30)
+            unconsolidated_txns = int(data["balanceCount"])
 
-        result += "Address balance: " + "%.2f" % balance + " PKT\n"
-        result += "Unconsolidated Txns: " + str(unconsolidated_txns) + "\n"
+            result += "Address balance: " + "%.2f" % balance + " PKT\n"
+            result += "Unconsolidated Txns: " + str(unconsolidated_txns) + "\n"
 
-        if (unconsolidated_txns > 1200):
-            result += "You should fold your coins again!\n"
+            if (unconsolidated_txns > 1200):
+                result += "You should fold your coins again!\n"
 
-        result += "\n"
-        result += "Mined last 24 hours: " + "%.2f" % mined24 + " PKT\n"
+            result += "\n"
+            result += "Mined last 24 hours: " + "%.2f" % mined24 + " PKT\n"
 
-    with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + address + "/income/30") as url:
-        data = json.load(url)
+        with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + pkt_address + "/income/30") as url:
+            data = json.load(url)
 
-        received_yesterday = int(data["results"][0]["received"]) / (2**30)
-        received_7daysago = int(data["results"][7]["received"]) / (2**30)
-        received_30daysago = int(data["results"][30]["received"]) / (2**30)
+            received_yesterday = int(data["results"][0]["received"]) / (2**30)
+            received_7daysago = int(data["results"][7]["received"]) / (2**30)
+            received_30daysago = int(data["results"][30]["received"]) / (2**30)
 
-        result += "Mined yesterday: " + "%.2f" % received_yesterday + " PKT\n"
-        result += "Mined 7 days ago: " + "%.2f" % received_7daysago + " PKT\n"
-        result += "Mined 30 days ago: " + "%.2f" % received_30daysago + " PKT"
+            result += "Mined yesterday: " + "%.2f" % received_yesterday + " PKT\n"
+            result += "Mined 7 days ago: " + "%.2f" % received_7daysago + " PKT\n"
+            result += "Mined 30 days ago: " + "%.2f" % received_30daysago + " PKT\n"
 
     return result
