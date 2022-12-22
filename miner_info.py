@@ -4,17 +4,19 @@ import urllib.request, json
 # https://stackoverflow.com/questions/455612/limiting-floats-to-two-decimal-points
 # https://stackoverflow.com/questions/4435169/how-do-i-append-one-string-to-another-in-python
 
-def get_miner_info(pkt_addresses):
+def get_miner_info(addresses):
     
     result = "<b>Miner statistics</b>\n"
-    
-    for pkt_address in pkt_addresses:
+    number = 0
 
-        pkt_address = str(pkt_address[0]).lower()
-        
-        result += "\nAddress: " + pkt_address + "\n"
+    for address in addresses:
 
-        with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + pkt_address) as url:
+        address = str(address[0]).lower()
+        number += 1
+
+        result += "\nAddress #" + str(number) + ": " + address + "\n"
+
+        with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + address) as url:
             data = json.load(url)
 
             balance = int(data["balance"]) / (2**30)
@@ -25,12 +27,12 @@ def get_miner_info(pkt_addresses):
             result += "Unconsolidated Txns: " + str(unconsolidated_txns) + "\n"
 
             if (unconsolidated_txns > 1200):
-                result += "You should fold your coins again!\n"
+                result += "<i>You should fold your coins again!</i>\n"
 
             result += "\n"
             result += "Mined last 24 hours: " + f"{mined24:,.2f}" + " PKT\n"
 
-        with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + pkt_address + "/income/30") as url:
+        with urllib.request.urlopen("https://explorer.pkt.cash/api/v1/PKT/pkt/address/" + address + "/income/30") as url:
             data = json.load(url)
 
             received_yesterday = int(data["results"][0]["received"]) / (2**30)
