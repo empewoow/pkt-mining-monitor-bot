@@ -1,5 +1,7 @@
 import sqlite3
 
+# https://github.com/J4NN0/j4nn0-b0t/blob/master/util/reminder.py
+
 database_name = "data.db"
 
 def create_table():
@@ -74,18 +76,7 @@ def remove_address(chat_id, message):
 
         return "PKT address " + address + " removed..."
 
-def get_first_address(chat_id):
-
-    connection = sqlite3.connect(database_name)
-    cursor = connection.cursor()
-    
-    rows = cursor.execute("SELECT address FROM addresses WHERE chat_id='" + str(chat_id) + "'").fetchall()
-
-    connection.close()
-
-    return rows[0][0]
-
-def get_all_addresses(chat_id):
+def get_addresses(chat_id):
 
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()

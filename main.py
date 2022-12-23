@@ -29,8 +29,8 @@ def callback_message(context):
     #now = datetime.datetime.now()
     #time = now.strftime("%H:%M")
     
-    all_addresses = data.get_all_addresses(chat_id)
-    message = miner_info.get_miner_info(all_addresses)
+    addresses = data.get_addresses(chat_id)
+    message = miner_info.get_miner_info(addresses)
 
     context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
 
@@ -39,8 +39,8 @@ def daily_message(context):
     #now = datetime.datetime.now()
     #time = now.strftime("%H:%M")
 
-    first_address = data.get_first_address(chat_id)
-    message = miner_info.get_miner_info(first_address)
+    addresses = data.get_addresses(chat_id)
+    message = miner_info.get_miner_info(addresses)
 
     context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
 
