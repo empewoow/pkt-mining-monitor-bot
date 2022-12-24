@@ -29,12 +29,12 @@ def list_addresses(chat_id, message):
         connection.close()
 
         if len(rows) == 0:
-            return "No addresses yet!"
+            return "No PKT addresses yet!"
         else:
             addresses = ""
             for row in rows:
                 addresses += str(row[0]) + "\n"
-            return "Addresses:\n" + addresses
+            return "Your PKT addresses:\n" + addresses
 
 def add_address(chat_id, message):
 
@@ -49,12 +49,21 @@ def add_address(chat_id, message):
         connection = sqlite3.connect(database_name)
         cursor = connection.cursor()
 
-        cursor.execute("INSERT INTO addresses VALUES ('" + str(chat_id) + "', '" + address + "')")
+        check_this_address = cursor.execute("SELECT * FROM addresses WHERE chat_id='" + str(chat_id) + "' AND address='" + address + "'").fetchall()
+        address_count = cursor.execute("SELECT * FROM addresses WHERE chat_id='" + str(chat_id) + "'").fetchall()
+
+        if len(check_this_address) == 1:
+            result = "You have already added this PKT address!"
+        elif len(address_count) == 5:
+            result = "You cannot add more than 5 PKT addresses."
+        else:
+            cursor.execute("INSERT INTO addresses VALUES ('" + str(chat_id) + "', '" + address + "')")
+            result = "PKT address " + address + " added!"
 
         connection.commit()
         connection.close()
 
-        return "PKT address " + address + " added!"
+        return result
 
 def remove_address(chat_id, message):
 
@@ -69,12 +78,18 @@ def remove_address(chat_id, message):
         connection = sqlite3.connect(database_name)
         cursor = connection.cursor()
 
-        cursor.execute("DELETE FROM addresses WHERE chat_id='" + str(chat_id) + "' AND address='" + address + "'")
+        check_this_address = cursor.execute("SELECT * FROM addresses WHERE chat_id='" + str(chat_id) + "' AND address='" + address + "'").fetchall()
+        
+        if len(check_this_address) == 0:
+            result = "This PKT address is not in your list."
+        else:
+            cursor.execute("DELETE FROM addresses WHERE chat_id='" + str(chat_id) + "' AND address='" + address + "'")
+            result = "PKT address " + address + " removed..."
 
         connection.commit()
         connection.close()
 
-        return "PKT address " + address + " removed..."
+        return result
 
 def get_addresses(chat_id):
 

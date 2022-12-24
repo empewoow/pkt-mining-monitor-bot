@@ -11,8 +11,6 @@ import pytz
 # https://docs.python-telegram-bot.org/en/stable/telegram.ext.jobqueue.html
 # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Code-snippets#message-formatting-bold-italic-code-
 
-print ("PKT Miner Monitor bot started.")
-
 def start_command(update, context):
     #update.message.reply_text("Type something to get started!")
 
@@ -62,16 +60,15 @@ def remove_address_command(update, context):
     result = data.remove_address(chat_id, message)
     update.message.reply_text(result)
 
-def check_command(update, context: CallbackContext) -> None:
+def check_command(update, context: CallbackContext):
     update.message.reply_text(f"Check: {context.bot.base_url}")
 
 def help_command(update, context):
     update.message.reply_text("If you need help? Ask Google lol.")
 
 def handle_message(update, context):
-    text = str(update.message.text).lower()
-    response = responses.sample_responses(text)
-
+    message = update.message.text.lower()
+    response = responses.sample_responses(message)
     update.message.reply_text(response)
 
 def error(update, context):
@@ -93,6 +90,9 @@ def main():
     dp.add_error_handler(error)
 
     updater.start_polling()
+
+    print ("PKT Miner Monitor bot started.")
+
     updater.idle()
 
 main()
