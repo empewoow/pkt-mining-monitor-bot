@@ -76,6 +76,8 @@ def error(update, context):
 
 def main():
 
+    data.create_table()
+    
     updater = Updater(constants.API_KEY, use_context=True)
     dp = updater.dispatcher
 

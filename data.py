@@ -9,7 +9,7 @@ def create_table():
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()
 
-    cursor.execute("CREATE TABLE addresses (chat_id INTEGER, address TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS addresses (chat_id INTEGER, address TEXT)")
 
     connection.commit()
     connection.close()
