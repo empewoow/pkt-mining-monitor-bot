@@ -44,9 +44,8 @@ Output:
 
 ## To-do
 
+- Let user change the time of the scheduled message
 - Percentage statistics, compare daily income to previous values
-- Multiple users
-- Multiple PKT addresses
 - Nice graphs?
 - Many other things...
 
