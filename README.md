@@ -7,6 +7,16 @@ The bot can send the user a message each day at a fixed time with some mining st
 
 ![Screenshot of the PKT Miner Monitor bot](/docs/screenshot1.png?raw=true)
 
+## Available commands
+
+* `/add_address` Adds a PKT address to your list.
+* `/remove_address` Removes a PKT address from your list.
+* `/list_addresses` View the PKT addresses on your list.
+* `/set_time` Set the time of the subscription message.
+* `/set_timezone` Set the timezone for the time of the message.
+* `/start` Start the subscription.
+* `/help` Shows this list.
+
 ## How to run it?
 
 For now, you cannot use the bot I created yet. But you can run it yourself:
@@ -16,7 +26,7 @@ For now, you cannot use the bot I created yet. But you can run it yourself:
 * Install the required [Python Telegram bot](https://python-telegram-bot.org/) library by running `pip install python-telegram-bot`. (You may need to use `pip3`.)
 * Configure some settings in the `constants.py` file.
 * Run the bot with `python main.py`.
-* Talk to the bot and say the `/start` command.
+* Talk to the bot :)
 
 ## How it get's the data
 
@@ -44,7 +54,6 @@ Output:
 
 ## To-do
 
-- Let user change the time of the scheduled message
 - Percentage statistics, compare daily income to previous values
 - Nice graphs?
 - Many other things...

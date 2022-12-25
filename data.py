@@ -185,26 +185,30 @@ def get_time(chat_id):
 
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()
-    
+
     rows = cursor.execute("SELECT time FROM time WHERE chat_id='" + str(chat_id) + "'").fetchall()
 
     connection.close()
 
-    if len(rows) == 0:
+    user_time = rows[0][0]
+
+    if len(rows) == 0 or user_time == "":
         return "9:30" # return something by default
     else:
-        return rows[0][0]
+        return user_time
 
 def get_timezone(chat_id):
 
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()
-    
+
     rows = cursor.execute("SELECT timezone FROM time WHERE chat_id='" + str(chat_id) + "'").fetchall()
 
     connection.close()
-    
-    if len(rows) == 0:
+
+    user_timezone = rows[0][0]
+
+    if len(rows) == 0 or user_timezone == "":
         return "Europe/Amsterdam" # return something by default
     else:
-        return rows[0][0]
+        return user_timezone

@@ -72,11 +72,18 @@ def set_timezone_command(update, context):
     result = data.set_timezone(chat_id, message)
     update.message.reply_text(result)
 
-def check_command(update, context: CallbackContext):
-    update.message.reply_text(f"Check: {context.bot.base_url}")
+#def check_command(update, context: CallbackContext):
+#    update.message.reply_text(f"Check: {context.bot.base_url}")
 
 def help_command(update, context):
-    update.message.reply_text("If you need help? Ask Google lol.")
+    update.message.reply_text("""Available commands:\n
+/add_address Adds a PKT address to your list.
+/remove_address Removes a PKT address from your list.
+/list_addresses View the PKT addresses on your list.
+/set_time Set the time of the subscription message.
+/set_timezone Set the timezone for the time of the message.
+/start Start the subscription.
+/help Shows this list.""")
 
 def handle_message(update, context):
     message = update.message.text
@@ -99,7 +106,7 @@ def main():
     dp.add_handler(CommandHandler("remove_address", remove_address_command))
     dp.add_handler(CommandHandler("set_time", set_time_command))
     dp.add_handler(CommandHandler("set_timezone", set_timezone_command))
-    dp.add_handler(CommandHandler("check", check_command))
+    #dp.add_handler(CommandHandler("check", check_command))
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(MessageHandler(Filters.text, handle_message))
 
