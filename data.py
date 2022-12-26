@@ -142,7 +142,7 @@ def set_time(chat_id, message):
             else:
                 cursor.execute("INSERT INTO time VALUES ('" + str(chat_id) + "', '', '" + time_str + "')")
 
-            result = "Your preferred time was set! (You may want to run /start again to update the subscription.)"
+            result = "Your preferred time was set! (You may want to run /subscribe again to update the subscription.)"
 
             connection.commit()
             connection.close()
@@ -174,7 +174,7 @@ def set_timezone(chat_id, message):
             else:
                 cursor.execute("INSERT INTO time VALUES ('" + str(chat_id) + "', '" + timezone + "', '')")
 
-            result = "Your preferred timezone was set! (You may want to run /start again to update the subscription.)"
+            result = "Your preferred timezone was set! (You may want to run /subscribe again to update the subscription.)"
 
             connection.commit()
             connection.close()
@@ -193,7 +193,7 @@ def get_time(chat_id):
     user_time = rows[0][0]
 
     if len(rows) == 0 or user_time == "":
-        return "9:30" # return something by default
+        return "9:30" # Return something by default
     else:
         return user_time
 
@@ -209,6 +209,6 @@ def get_timezone(chat_id):
     user_timezone = rows[0][0]
 
     if len(rows) == 0 or user_timezone == "":
-        return "Europe/Amsterdam" # return something by default
+        return "Europe/Amsterdam" # Return something by default
     else:
         return user_timezone

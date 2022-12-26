@@ -9,12 +9,13 @@ The bot can send the user a message each day at a fixed time with some mining st
 
 ## Available commands
 
-* `/add_address` Adds a PKT address to your list.
-* `/remove_address` Removes a PKT address from your list.
+* `/add_address <address>` Adds a PKT address to your list.
+* `/remove_address <address>` Removes a PKT address from your list.
 * `/list_addresses` View the PKT addresses on your list.
-* `/set_time` Set the time of the subscription message.
-* `/set_timezone` Set the timezone for the time of the message.
-* `/start` Start the subscription.
+* `/set_time <time>` Set the time of the subscription message.
+* `/set_timezone <timezone>` Set the timezone for the time of the message.
+* `/subscribe` Start/update the subscription.
+* `/stop` Stop the subscription.
 * `/help` Shows this list.
 
 ## How to run it?
@@ -24,11 +25,11 @@ For now, you cannot use the bot I created yet. But you can run it yourself:
 * Create your own bot by talking to Telegram's [BotFather](https://t.me/botfather).
 * Install Python if you don't have it yet.
 * Install the required [Python Telegram bot](https://python-telegram-bot.org/) library by running `pip install python-telegram-bot`. (You may need to use `pip3`.)
-* Configure some settings in the `constants.py` file.
+* Put your bot API token in the `constants.py` file.
 * Run the bot with `python main.py`.
 * Talk to the bot :)
 
-## How it get's the data
+## How it gets the data
 
 The bot uses the [PKT explorer backend API v1](https://github.com/pkt-cash/pkt-explorer-backend/blob/master/docs/apiv1.md). If you run this software yourself, you can connect it to your own block explorer.
 

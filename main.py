@@ -12,9 +12,17 @@ import pytz
 # https://docs.python-telegram-bot.org/en/stable/telegram.ext.jobqueue.html
 # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Code-snippets#message-formatting-bold-italic-code-
 
-def start_command(update, context):
-
+def subscribe_command(update, context):
     chat_id = update.message.chat_id
+    current_jobs = context.job_queue.get_jobs_by_name(str(chat_id))
+    
+    if len(current_jobs) == 1:
+        for job in current_jobs:
+            job.schedule_removal() # Kill the existing job first
+        result = "Subscription updated."
+    else:
+        result = "Subscription started."
+    
     user_time_str = data.get_time(chat_id)
     user_time = datetime.datetime.strptime(user_time_str, "%H:%M")
     user_hour = user_time.hour
@@ -23,12 +31,25 @@ def start_command(update, context):
 
     # Send the daily message at the preferred time of the user:
     message_time = datetime.time(hour=user_hour, minute=user_minute, tzinfo=pytz.timezone(user_timezone))
-    context.job_queue.run_daily(daily_message, message_time, days=(0, 1, 2, 3, 4, 5, 6), context=update.message.chat_id)
+    context.job_queue.run_daily(daily_message, message_time, days=(0, 1, 2, 3, 4, 5, 6), context=chat_id, name=str(chat_id))
 
     # Send a message every hour:
     #context.job_queue.run_repeating(callback_message, interval=3600, first=1, context=update.message.chat_id)
 
-    update.message.reply_text("Subscription started. Your daily message will be sent every day at " + user_time_str + " in the " + user_timezone + " timezone.")
+    result += " Your daily message will be sent every day at " + user_time_str + " in the " + user_timezone + " timezone."
+    update.message.reply_text(result)
+
+def stop_command(update, context):
+    chat_id = update.message.chat_id
+    current_jobs = context.job_queue.get_jobs_by_name(str(chat_id))
+
+    if len(current_jobs) == 0:
+        result = "No subscription is running."
+    else:
+        for job in current_jobs:
+            job.schedule_removal()
+        result = "Subscription stopped."
+    update.message.reply_text(result)
 
 def callback_message(context):
     chat_id = context.job.context    
@@ -77,12 +98,13 @@ def set_timezone_command(update, context):
 
 def help_command(update, context):
     update.message.reply_text("""Available commands:\n
-/add_address Adds a PKT address to your list.
-/remove_address Removes a PKT address from your list.
+/add_address <address> Adds a PKT address to your list.
+/remove_address <address> Removes a PKT address from your list.
 /list_addresses View the PKT addresses on your list.
-/set_time Set the time of the subscription message.
-/set_timezone Set the timezone for the time of the message.
-/start Start the subscription.
+/set_time <time> Set the time of the subscription message.
+/set_timezone <timezone> Set the timezone for the time of the message.
+/subscribe Start/update the subscription.
+/stop Stop the subscription.
 /help Shows this list.""")
 
 def handle_message(update, context):
@@ -100,7 +122,8 @@ def main():
     updater = Updater(constants.API_KEY, use_context=True)
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("start", start_command))
+    dp.add_handler(CommandHandler("subscribe", subscribe_command))
+    dp.add_handler(CommandHandler("stop", stop_command))
     dp.add_handler(CommandHandler("list_addresses", list_addresses_command))
     dp.add_handler(CommandHandler("add_address", add_address_command))
     dp.add_handler(CommandHandler("remove_address", remove_address_command))
