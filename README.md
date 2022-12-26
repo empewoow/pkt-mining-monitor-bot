@@ -1,11 +1,11 @@
-# PKT Miner Monitor bot
-Monitor your PKT miner with this Telegram bot.
+# PKT Mining Monitor bot
+Monitor your PKT miners with this Telegram bot.
 
 The bot can send the user a message each day at a fixed time with some mining statistics. It shows the balance of the PKT address, mining income yesterday, 7 days and 30 days ago. It can show the amount of unconsolidated transactions and tells you if you need to fold your coins again.
 
 ## Screenshot
 
-![Screenshot of the PKT Miner Monitor bot](/docs/screenshot1.png?raw=true)
+![Screenshot of the PKT Mining Monitor bot](/docs/screenshot1.png?raw=true)
 
 ## Available commands
 

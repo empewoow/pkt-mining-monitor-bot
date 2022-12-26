@@ -2,7 +2,7 @@ import constants
 from telegram.ext import *
 from telegram import ParseMode
 import responses
-import miner_info
+import mining_data
 import data
 import datetime
 import time
@@ -54,13 +54,13 @@ def stop_command(update, context):
 def callback_message(context):
     chat_id = context.job.context    
     addresses = data.get_addresses(chat_id)
-    message = miner_info.get_miner_info(addresses)
+    message = mining_data.get_mining_data(addresses)
     context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
 
 def daily_message(context):
     chat_id = context.job.context
     addresses = data.get_addresses(chat_id)
-    message = miner_info.get_miner_info(addresses)
+    message = mining_data.get_mining_data(addresses)
     context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
 
 def list_addresses_command(update, context):
@@ -137,7 +137,7 @@ def main():
 
     updater.start_polling()
 
-    print ("PKT Miner Monitor bot started.")
+    print ("PKT Mining Monitor bot started.")
 
     updater.idle()
 

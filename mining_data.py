@@ -4,12 +4,12 @@ import urllib.request, json
 # https://stackoverflow.com/questions/455612/limiting-floats-to-two-decimal-points
 # https://stackoverflow.com/questions/4435169/how-do-i-append-one-string-to-another-in-python
 
-def get_miner_info(addresses):
+def get_mining_data(addresses):
 
     if len(addresses) == 0:
         return "You first have to add at least one PKT address. Use /add_address to add one."
     else:
-        result = "<b>Miner statistics</b>\n"
+        result = "<b>Mining statistics</b>\n"
         number = 0
 
         for address in addresses:
