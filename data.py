@@ -8,13 +8,13 @@ import pytz
 
 database_name = "data.db"
 
-def create_table():
+def create_tables():
 
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()
 
     cursor.execute("CREATE TABLE IF NOT EXISTS addresses (chat_id INTEGER, address TEXT)")
-    cursor.execute("CREATE TABLE IF NOT EXISTS time (chat_id INTEGER, timezone TEXT, time TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS settings (chat_id INTEGER, subscription INTEGER, timezone TEXT, time TEXT)")
 
     connection.commit()
     connection.close()
@@ -135,12 +135,12 @@ def set_time(chat_id, message):
             connection = sqlite3.connect(database_name)
             cursor = connection.cursor()
 
-            check = cursor.execute("SELECT * FROM time WHERE chat_id='" + str(chat_id) + "'").fetchall()
+            check = cursor.execute("SELECT * FROM settings WHERE chat_id='" + str(chat_id) + "'").fetchall()
 
             if len(check) == 1:
-                cursor.execute("UPDATE time SET time = '" + time_str + "' WHERE chat_id='" + str(chat_id) + "'")
+                cursor.execute("UPDATE settings SET time = '" + time_str + "' WHERE chat_id='" + str(chat_id) + "'")
             else:
-                cursor.execute("INSERT INTO time VALUES ('" + str(chat_id) + "', '', '" + time_str + "')")
+                cursor.execute("INSERT INTO settings VALUES ('" + str(chat_id) + "', '', '', '" + time_str + "')")
 
             result = "Your preferred time was set! (You may want to run /subscribe again to update the subscription.)"
 
@@ -167,12 +167,12 @@ def set_timezone(chat_id, message):
             connection = sqlite3.connect(database_name)
             cursor = connection.cursor()
 
-            check = cursor.execute("SELECT * FROM time WHERE chat_id='" + str(chat_id) + "'").fetchall()
+            check = cursor.execute("SELECT * FROM settings WHERE chat_id='" + str(chat_id) + "'").fetchall()
 
             if len(check) == 1:
-                cursor.execute("UPDATE time SET timezone = '" + timezone + "' WHERE chat_id='" + str(chat_id) + "'")
+                cursor.execute("UPDATE settings SET timezone = '" + timezone + "' WHERE chat_id='" + str(chat_id) + "'")
             else:
-                cursor.execute("INSERT INTO time VALUES ('" + str(chat_id) + "', '" + timezone + "', '')")
+                cursor.execute("INSERT INTO settings VALUES ('" + str(chat_id) + "', '', '" + timezone + "', '')")
 
             result = "Your preferred timezone was set! (You may want to run /subscribe again to update the subscription.)"
 
@@ -186,29 +186,79 @@ def get_time(chat_id):
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()
 
-    rows = cursor.execute("SELECT time FROM time WHERE chat_id='" + str(chat_id) + "'").fetchall()
+    rows = cursor.execute("SELECT time FROM settings WHERE chat_id='" + str(chat_id) + "'").fetchall()
 
     connection.close()
 
-    user_time = rows[0][0]
+    default_time = "9:30" # Return something by default
 
-    if len(rows) == 0 or user_time == "":
-        return "9:30" # Return something by default
+    if len(rows) == 0:
+        return default_time
     else:
-        return user_time
+        user_time = rows[0][0]
+        if user_time == "":
+            return default_time
+        else:
+            return user_time
 
 def get_timezone(chat_id):
 
     connection = sqlite3.connect(database_name)
     cursor = connection.cursor()
 
-    rows = cursor.execute("SELECT timezone FROM time WHERE chat_id='" + str(chat_id) + "'").fetchall()
+    rows = cursor.execute("SELECT timezone FROM settings WHERE chat_id='" + str(chat_id) + "'").fetchall()
 
     connection.close()
 
-    user_timezone = rows[0][0]
+    default_timezone = "Europe/Amsterdam" # Return something by default
 
-    if len(rows) == 0 or user_timezone == "":
-        return "Europe/Amsterdam" # Return something by default
+    if len(rows) == 0:
+        return default_timezone
     else:
-        return user_timezone
+        user_timezone = rows[0][0]
+        if user_timezone == "":
+            return default_timezone
+        else:
+            return user_timezone
+
+def set_subscription(chat_id, subscription):
+
+    connection = sqlite3.connect(database_name)
+    cursor = connection.cursor()
+
+    check = cursor.execute("SELECT * FROM settings WHERE chat_id='" + str(chat_id) + "'").fetchall()
+
+    if len(check) == 1:
+        cursor.execute("UPDATE settings SET subscription = '" + subscription + "' WHERE chat_id='" + str(chat_id) + "'")
+    else:
+        cursor.execute("INSERT INTO settings VALUES ('" + str(chat_id) + "', '1', '', '')")
+
+    connection.commit()
+    connection.close()
+
+def get_subscription(chat_id):
+
+    connection = sqlite3.connect(database_name)
+    cursor = connection.cursor()
+
+    rows = cursor.execute("SELECT subscription FROM settings WHERE chat_id='" + str(chat_id) + "'").fetchall()
+
+    connection.close()
+
+    user_subscription = rows[0][0]
+
+    if len(rows) == 0 or user_subscription == "":
+        return 0 # Return something by default
+    else:
+        return user_subscription
+
+def get_subscribed_chat_ids():
+
+    connection = sqlite3.connect(database_name)
+    cursor = connection.cursor()
+    
+    rows = cursor.execute("SELECT chat_id FROM settings WHERE subscription='1'").fetchall()
+
+    connection.close()
+
+    return rows
