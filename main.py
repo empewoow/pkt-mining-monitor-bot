@@ -112,6 +112,7 @@ def set_timezone_command(update, context):
 
 def help_command(update, context):
     update.message.reply_text("""Available commands:\n
+/start Displays a welcome message.
 /add_address <address> Adds a PKT address to your list.
 /remove_address <address> Removes a PKT address from your list.
 /list_addresses View the PKT addresses on your list.

@@ -9,6 +9,7 @@ The bot can send the user a message each day at a fixed time with some mining st
 
 ## Available commands
 
+* `/start` Displays a welcome message.
 * `/add_address <address>` Adds a PKT address to your list.
 * `/remove_address <address>` Removes a PKT address from your list.
 * `/list_addresses` View the PKT addresses on your list.
