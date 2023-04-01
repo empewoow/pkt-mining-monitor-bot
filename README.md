@@ -23,10 +23,11 @@ The bot can send the user a message each day at a fixed time with some mining st
 
 For now, you cannot use the bot I created yet. But you can run it yourself:
 
-* Create your own bot by talking to Telegram's [BotFather](https://t.me/botfather).
+* Create your own bot by talking to Telegram's [BotFather](https://t.me/botfather) and get the API token of your bot.
 * Install Python if you don't have it yet.
 * Install the required [Python Telegram bot](https://python-telegram-bot.org/) library by running `pip install python-telegram-bot`. (You may need to use `pip3`.)
-* Put your bot API token in the `constants.py` file.
+* Install the required [Python dotenv](https://pypi.org/project/python-dotenv/) library by running `pip install python-dotenv`. (You may need to use `pip3`.)
+* Put your bot API token in a file called `.env`, in this format: `PKT_MINING_BOT_TOKEN = "<your bot's API token goes here>"`.
 * Run the bot with `python main.py`.
 * Talk to the bot :)
 

@@ -1,4 +1,5 @@
-import constants
+import os
+from dotenv import load_dotenv
 from telegram.ext import *
 from telegram import ParseMode
 import responses
@@ -12,7 +13,9 @@ import pytz
 # https://docs.python-telegram-bot.org/en/stable/telegram.ext.jobqueue.html
 # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Code-snippets#message-formatting-bold-italic-code-
 
-updater = Updater(constants.API_KEY, use_context=True)
+load_dotenv()
+bot_token = os.environ.get('PKT_MINING_BOT_TOKEN')
+updater = Updater(token=bot_token, use_context=True)
 
 def mining_data_message(context):
     chat_id = context.job.context
