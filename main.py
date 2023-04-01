@@ -64,9 +64,6 @@ def subscribe_command(update, context):
     queue_daily_message(chat_id, user_hour, user_minute, user_timezone)
     data.set_subscription(chat_id, "1")
 
-    # Send a message every hour:
-    #context.job_queue.run_repeating(mining_data_message, interval=3600, first=1, context=update.message.chat_id)
-
     result += " Your daily message will be sent every day at " + user_time_str + " in the " + user_timezone + " timezone."
     update.message.reply_text(result)
 
@@ -156,8 +153,6 @@ def main():
 
     dp.add_error_handler(error)
 
-    #updater.bot.send_message(767344183, text='Howdy')
-    #queue_daily_message(767344183, 19, 38, "Europe/Amsterdam")
     restore_subscriptions()
 
     updater.start_polling()
