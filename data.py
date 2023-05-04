@@ -21,7 +21,6 @@ def create_tables():
 
 def list_addresses(chat_id, message):
     
-    message = message.lower()
     strings = message.split()
 
     if len(strings) != 1:
@@ -44,14 +43,12 @@ def list_addresses(chat_id, message):
 
 def add_address(chat_id, message):
 
-    message = message.lower()
     strings = message.split()
 
     if len(strings) != 2:
         return "Syntax error. Use /help for more info."
     else:
-        strings.remove("/add_address")
-        address = strings[0]
+        address = strings[1]
 
         connection = sqlite3.connect(database_name)
         cursor = connection.cursor()
@@ -74,14 +71,12 @@ def add_address(chat_id, message):
 
 def remove_address(chat_id, message):
 
-    message = message.lower()
     strings = message.split()
 
     if len(strings) != 2:
         return "Syntax error. Use /help for more info."
     else:
-        strings.remove("/remove_address")
-        address = strings[0]
+        address = strings[1]
 
         connection = sqlite3.connect(database_name)
         cursor = connection.cursor()
@@ -119,14 +114,12 @@ def is_time_format(input):
 
 def set_time(chat_id, message):
 
-    message = message.lower()
     strings = message.split()
 
     if len(strings) != 2:
         return "Syntax error. Use /help for more info."
     else:
-        strings.remove("/set_time")
-        time_str = strings[0]
+        time_str = strings[1]
 
         if not is_time_format(time_str):
             result = "This is not a valid time."
@@ -156,9 +149,7 @@ def set_timezone(chat_id, message):
     if len(strings) != 2:
         return "Syntax error. Use /help for more info."
     else:
-        strings[0] = strings[0].lower()
-        strings.remove("/set_timezone")
-        timezone = strings[0]
+        timezone = strings[1]
 
         if not timezone in pytz.all_timezones:
             result = "This is not a valid timezone."

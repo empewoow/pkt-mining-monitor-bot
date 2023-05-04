@@ -21,7 +21,7 @@ def mining_data_message(context):
     chat_id = context.job.context
     addresses = data.get_addresses(chat_id)
     message = mining_data.get_mining_data(addresses)
-    context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML)
+    context.bot.send_message(chat_id=chat_id, text=message, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 def queue_daily_message(chat_id, hour, minute, timezone):
     message_time = datetime.time(hour=hour, minute=minute, tzinfo=pytz.timezone(timezone))
@@ -157,7 +157,7 @@ def main():
 
     updater.start_polling()
 
-    print ("PKT Mining Monitor bot started.")
+    print("PKT Mining Monitor bot started.")
 
     updater.idle()
 
