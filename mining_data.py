@@ -13,17 +13,17 @@ def get_pkt_usd_price():
 
     try:
         req = urllib.request.Request(
-            "https://api-cloud.bitmart.com/spot/v1/ticker_detail?symbol=PKT_USDT",
+            "https://api.mexc.com/api/v3/ticker/price?symbol=PKTUSDT",
             data = None, 
             headers = req_headers
         )
         with urllib.request.urlopen(req) as res:
 
             data = json.load(res)
-            price = float(data["data"]["last_price"])
+            price = float(data["price"])
 
     except EnvironmentError:
-            print("Bitmart API error!")
+            print("MEXC API error!")
 
     return price
 
@@ -42,7 +42,7 @@ def get_mining_data(addresses):
         pkt_usd_price = get_pkt_usd_price()
 
         if (pkt_usd_price != -1.0):
-            result += "\nCurrent price PKT (on <a href=\"https://www.bitmart.com/trade/en-US?symbol=PKT_USDT\">BitMart</a>):\n   $ " + str(pkt_usd_price) + "\n"
+            result += "\nCurrent price PKT (on <a href=\"https://www.mexc.com/exchange/PKT_USDT\">MEXC</a>):\n   $ " + str(pkt_usd_price) + "\n"
 
         for address in addresses:
 
